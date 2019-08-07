@@ -1,0 +1,16 @@
+VT1
+Tu lanh
+Cai
+120
+VT2
+Dieu Hoa
+Cai
+150
+VT3
+May giat
+Cai
+200
+VT4
+Ban ghe
+Cap
+500
