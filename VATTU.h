@@ -176,9 +176,9 @@ NhapSoLuongTon:
 					cout<<"So luong ton khong hop le. Nhan Enter de nhap lai. ";
 				endchar = getch();
 				if(endchar==ENTER){
-					gotoxy(5,20);
 					cin.clear(); // reset failbit
     				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
+					gotoxy(5,20);
 					cout<<"                                                       ";
 					goto NhapSoLuongTon;
 				}else{
@@ -353,7 +353,7 @@ void xuatDanhSachVattu(DSVATTU &ds) {
 }
 
 int laySlt(DSVATTU ds, char *mavt){
-	if(ds.n == 0); return -1;
+	if(ds.n == 0) return -1;
 	for(int i = 0; i<ds.n; i++){
 		if(strcmp(mavt, ds.nodes[i]->Mavt) == 0){
 			return ds.nodes[i]->Soluongton;

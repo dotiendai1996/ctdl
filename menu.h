@@ -58,13 +58,13 @@ void xuLyMenuVattu(DSVATTU &dsvt){
 }
 
 // ================================ XU LY MENU NHAN VIEN ===================================
-void xuLyMenuNhanvien(TREE &t, DSNHANVIEN &dsnv, LISTHD &l){
+void xuLyMenuNhanvien(TREE &t, DSNHANVIEN &dsnv, LISTHD &l, DSVATTU dsvt){
 	int endchar;
 				int chonNv = MenuDong(menunv,MAX_MENU_NHANVIEN);
 			switch(chonNv){
 				case 1: {
 					Normal(); //xem lai doc file dang loi x2 nv
-					xuatDanhSachNhanvienTheoMang(t, l);
+					xuatDanhSachNhanvienTheoMang(t, l, dsvt);
 					break;
 				}
 				case 2:{
@@ -72,7 +72,7 @@ void xuLyMenuNhanvien(TREE &t, DSNHANVIEN &dsnv, LISTHD &l){
 					NHANVIEN x;
 					nhapThongTinNhanVien(t, x, 1);
 					themPhanTuVaoTree(t,x);
-					xuatDanhSachNhanvienTheoMang(t, l);
+					xuatDanhSachNhanvienTheoMang(t, l, dsvt);
 					break;
 				}
 				case 3:{
@@ -98,7 +98,7 @@ while(1){
 		}
 		case 2:{
 			Normal();
-			xuLyMenuNhanvien(t, dsnv, l);
+			xuLyMenuNhanvien(t, dsnv, l, dsvt);
 			system("cls");
 			break;
 		}

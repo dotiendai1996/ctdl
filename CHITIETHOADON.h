@@ -49,7 +49,11 @@ void xoaCthd(LISTCTHD &l, int vitri){
 	return;
 }
 
-void nhapThongTinCTHD(CTHD &cthd, char *mavt, DSVATTU ds, char *Loai){
+void nhapThongTinCTHD(CTHD &cthd, DSVATTU ds, char *Loai){
+	for(int i = 0; i < ds.n ; i++){
+		cout<<ds.nodes[i]->Mavt<<" "<<ds.nodes[i]->Soluongton<<endl;
+	}
+	getch();
 	system("cls");
 
 	cBoard c;
@@ -67,10 +71,10 @@ void nhapThongTinCTHD(CTHD &cthd, char *mavt, DSVATTU ds, char *Loai){
 		if(strlen(cthd.Mavt) == 0){
 			checkMaVattuRong:
 				gotoxy(5,20);
-				cout<<"Ma vat tu khong duoc rong.";
+				cout<<"Ma vat tu khong duoc rong. Nhan ENTER de nhap lai.";
 				endchar = getch();
 				if(endchar == ENTER){
-					gotoxy(5,22);
+					gotoxy(5,20);
 					cout<<"                                    ";
 					goto NhapMaVattu;
 				}else{
@@ -79,11 +83,11 @@ void nhapThongTinCTHD(CTHD &cthd, char *mavt, DSVATTU ds, char *Loai){
 		}else if (endchar == ENTER){
 			if(!checkMavtExist(ds, cthd.Mavt)){
 				checkMavtTonTai:
-					gotoxy(5,22);
-					cout<<"Ma vat tu khong duoc rong.";
+					gotoxy(5,20);
+					cout<<"Ma vat tu khong ton tai trong danh sach. Nhan ENTER de nhap lai.";
 					endchar = getch();
 					if(endchar == ENTER){
-						gotoxy(5,22);
+						gotoxy(5,20);
 						cout<<"                                 ";
 						goto NhapMaVattu;
 					}else{
@@ -98,6 +102,7 @@ void nhapThongTinCTHD(CTHD &cthd, char *mavt, DSVATTU ds, char *Loai){
 		gotoxy(x + 3, y + 5);
 	   	cout<<"Nhap so luong:";
 		gotoxy(x+23,y+5); cout<<"                                ";
+		gotoxy(x+23,y+5); 
 		cin >> cthd.Soluong;
 		if(cthd.Soluong < 0 || !cin){
 			checkNhapSoLuong:
@@ -115,7 +120,7 @@ void nhapThongTinCTHD(CTHD &cthd, char *mavt, DSVATTU ds, char *Loai){
 				}
 		}else if(endchar == ENTER){
 			if(strcmp(Loai,"X") == 0){
-				float slt = laySlt(ds, mavt);
+				float slt = laySlt(ds, cthd.Mavt);
 				if(slt < cthd.Soluong){
 					checkSlt:
 						gotoxy(5,20);
@@ -134,9 +139,10 @@ void nhapThongTinCTHD(CTHD &cthd, char *mavt, DSVATTU ds, char *Loai){
 		}
 		
 	nhapDonGia:
-		gotoxy(x + 3, y + 5);
-	   	cout<<"Nhap so luong:";
-		gotoxy(x+23,y+5); cout<<"                                ";
+		gotoxy(x + 3, y + 7);
+	   	cout<<"Nhap don gia:";
+		gotoxy(x+23,y+7); cout<<"                                ";
+		gotoxy(x + 23, y + 7);
 		cin >> cthd.Dongia;
 		if(cthd.Dongia < 0 || !cin){
 			checkNhapDonGia:
@@ -144,9 +150,9 @@ void nhapThongTinCTHD(CTHD &cthd, char *mavt, DSVATTU ds, char *Loai){
 				cout<<"Don gia khong hop le. Nhan ENTER de nhap lai.";
 				endchar == getch();
 				if(endchar == ENTER){
-					gotoxy(5,20);
 					cin.clear(); // reset failbit
     				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
+					gotoxy(5,20);
     				cout<<"                                                      ";
     				goto nhapDonGia;
 				}else{
@@ -157,12 +163,25 @@ void nhapThongTinCTHD(CTHD &cthd, char *mavt, DSVATTU ds, char *Loai){
 		}
 		
 	nhapVAT:
-				gotoxy(x + 3, y + 5);
+		gotoxy(x + 3, y + 9);
 	   	cout<<"Nhap VAT:";
-		gotoxy(x+23,y+5); cout<<"                                ";
+		gotoxy(x+23,y+9); cout<<"                                ";
+		gotoxy(x + 23, y + 9);
 		cin >> cthd.VAT;
 		if(cthd.VAT < 0 || !cin){
-			
+			checkRongVAT:
+				gotoxy(5,20);
+				cout<<"VAT khong hop le. Nhan ENTER de tiep tuc.";
+				endchar = getch();
+				if(endchar == ENTER){
+					cin.clear(); // reset failbit
+    				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
+					gotoxy(5,20);
+					cout<<"                                                   ";
+					goto nhapVAT;
+				}else{
+					goto checkRongVAT;
+				}
 		}else if(endchar == ENTER){
 			goto setTrangThai;
 		}
