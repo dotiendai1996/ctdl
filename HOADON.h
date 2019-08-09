@@ -125,11 +125,6 @@ void xoaViTriBatKiLISTHD(LISTHD &l, char *SoHD){
 	}
 }
 
-// ======================= HAM CHECK KIEM TRA HOA DON CO TON TAI HAY KHONG ==================================
-bool checkHoaDonExist(LISTHD, char *SoHD){
-	
-}
-
 // ======================= THONG TIN HOA DON ================================================
 void themThongTinHoaDon(HOADON &hd, LISTHD l){
 	system("cls");

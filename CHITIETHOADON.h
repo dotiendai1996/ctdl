@@ -26,14 +26,28 @@ bool checkListCthdFull(LISTCTHD l){
 }
 
 void themCthd(LISTCTHD &l, int vitri, CTHD ct){
-	if(checkListCthdFull(l) || vitri < 0 || vitri > l.n){
-		cout<<"Danh sach day hoac vi tri them khong hop le";
+	if(checkListCthdFull(l)){
+		cout<<"Danh sach day, khong the them.";
+		return;
+	}
+	if(vitri < 0 || vitri > l.n){
+		cout<<"Vi tri them khong hop le.";
 		return;
 	}
 	for(int i = l.n-1; i>=vitri; i--){
 		l.nodesCTDH[i+1] = l.nodesCTDH[i];
 	}
 	l.nodesCTDH[vitri] = ct;
+	l.n++;
+	return;
+}
+
+void themCthdVaoCuoi(LISTCTHD &l, CTHD ct){
+	if(checkListCthdFull(l)){
+		cout<<"Danh sach day, khong the them.";
+		return;
+	}
+	l.nodesCTDH[l.n] = ct;
 	l.n++;
 	return;
 }
@@ -50,12 +64,8 @@ void xoaCthd(LISTCTHD &l, int vitri){
 }
 
 void nhapThongTinCTHD(CTHD &cthd, DSVATTU ds, char *Loai){
-	for(int i = 0; i < ds.n ; i++){
-		cout<<ds.nodes[i]->Mavt<<" "<<ds.nodes[i]->Soluongton<<endl;
-	}
-	getch();
+	
 	system("cls");
-
 	cBoard c;
 	int x = 3, y = 2; int endchar; 
 	c.drawBoard(x, y, 60, 15);
@@ -165,9 +175,14 @@ void nhapThongTinCTHD(CTHD &cthd, DSVATTU ds, char *Loai){
 	nhapVAT:
 		gotoxy(x + 3, y + 9);
 	   	cout<<"Nhap VAT:";
+	   	gotoxy(x+27, y+9);
+	   	cout<<" %";
 		gotoxy(x+23,y+9); cout<<"                                ";
+		gotoxy(x+27, y+9);
+	   	cout<<" %";
 		gotoxy(x + 23, y + 9);
 		cin >> cthd.VAT;
+
 		if(cthd.VAT < 0 || !cin){
 			checkRongVAT:
 				gotoxy(5,20);
@@ -191,6 +206,15 @@ void nhapThongTinCTHD(CTHD &cthd, DSVATTU ds, char *Loai){
 		return;
 }
 
+void xuatDanhSachCthd(LISTCTHD l)
+{
+	cout<<l.n;
+	
+	for(int i = 0; i< l.n; i++){
+		cout<<"Mavt: "<<l.nodesCTDH[i].Mavt<<" - Soluong: "<<l.nodesCTDH[i].Soluong;
+	}
+	getch();
+}
 
 
 

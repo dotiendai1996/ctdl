@@ -195,7 +195,7 @@ NhapSoLuongTon:
 void themVattuVaoCuoi(DSVATTU & ds, VATTU vt) {
   if (!checkDsVattuFull(ds)) {
     ds.nodes[ds.n] = new VATTU;
-    * ds.nodes[ds.n] = vt;
+    *ds.nodes[ds.n] = vt;
     ds.n++;
   } else {
     TaoThongBaoVaMat(5, 20, "Danh sach day, khong the them.");

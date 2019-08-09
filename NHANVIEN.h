@@ -309,20 +309,58 @@ void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU dsvt) {
 		      return;
 			}else if (c == KEY_1){
 				gotoxy(3,2);
+				//Khoi tao hoa don
 				HOADON hd;
 				themThongTinHoaDon(hd,l);
+				//Khoi tao chi tiet hoa don
+				int n;
+				cout<<"Nhap so luong vat tu muon them vao hoa don:";
+				cin >>n;
+				LISTCTHD listcthd;
+				for(int i = 0; i< n; i++){
+					CTHD cthd;
+					nhapThongTinCTHD(cthd, dsvt, hd.Loai);
+					themCthdVaoCuoi(listcthd,cthd);
+
+				}
+				hd.dsctdh = listcthd;
+				cout<<hd.dsctdh.n;  //Ket qua tra ve: 1
+				getch();
 				NODEHOADON *p = khoiTaoNODE(hd);
 				themVaoCuoi(l, p);
+				for(NODEHOADON *k = l.pHead; k != NULL; k = k->pNext){
+					cout<<k->data.dsctdh.n;
+				}
+				getch();
+				cout<<l.pHead->data.SoHD;
+				getch();
 				t->data.dshd = &l;
-				CTHD cthd;
-				nhapThongTinCTHD(cthd, dsvt, hd.Loai);
+
+				for(int i = 0; i<l.pHead->data.dsctdh.n; i++){
+					cout<<listcthd.nodesCTDH[i].Mavt<<endl;
+				}
+				getch();
 				xemDanhSachHoaDon(t, manv, l, dsvt);
+				
 			}else if(c == KEY_2){
 				char SoHD[10];
 				gotoxy(2,2);
 				cout<<"Nhap so hoa don: ";
 				cin>>SoHD;
-				checkHoaDonExist(l, SoHD);
+				cout<<l.pHead->data.SoHD;
+				getch();
+				
+				for(NODEHOADON *k = l.pHead; k != NULL; k = k->pNext){
+					if(strcmp(k->data.SoHD, SoHD) == 0){
+						cout<<"oke";
+						getch();
+						cout<<k->data.dsctdh.n;
+						getch();
+						xuatDanhSachCthd(k->data.dsctdh);
+					}
+				}
+				cout<<"a"; getch();
+				break;
 			}
 		}
 	}
