@@ -317,9 +317,14 @@ void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU dsvt) {
 				CTHD cthd;
 				nhapThongTinCTHD(cthd, dsvt, hd.Loai);
 				xemDanhSachHoaDon(t, manv, l, dsvt);
+			}else if(c == KEY_2){
+				char SoHD[10];
+				gotoxy(2,2);
+				cout<<"Nhap so hoa don: ";
+				cin>>SoHD;
+				checkHoaDonExist(l, SoHD);
 			}
 		}
-		getch();
 	}
 }
 
