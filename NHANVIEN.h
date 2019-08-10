@@ -249,8 +249,6 @@ void nhapThongTinNhanVien(TREE t, NHANVIEN & nv, int flg) {
   
 }
 
-// ============== XUAT DANH SACH NHAN VIEN ===================================
-
 void khungXuatNhanvien() {
   int x = 8, y = 5;
   cBoard c;
@@ -269,6 +267,8 @@ void khungXuatNhanvien() {
   drawNgang(8, y + 2, 112, y + 2);
 
 }
+
+// ===================== XEM DANH SACH HOA DON ===============================================
 TREE timTree(TREE t, int manv);
 void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU &dsvt) {
 	
@@ -295,7 +295,7 @@ void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU &dsvt) {
 				y++;
 			}
 		}
-	    gotoxy(3, 22);
+	    gotoxy(3, 25);
 	  	cout << "Nhan 1: Them don hang       Nhan 2: Xem don hang        Nhan ESC: Thoat";
 	  	fflush(stdin);
 		while(true){
@@ -318,6 +318,14 @@ void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU &dsvt) {
 				int n;
 				cout<<"Nhap so luong vat tu muon them vao hoa don:";
 				cin >>n;
+				if(!cin){
+					cin.clear(); // reset failbit
+    				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
+					gotoxy(5,20);
+					cout<<"Ki tu khong hop le. Vui long nhap lai.";
+					getch();
+					xemDanhSachHoaDon(t, manv, l, dsvt);
+				}
 				LISTCTHD listcthd;
 				for(int i = 0; i< n; i++){
 					CTHD cthd;
@@ -326,8 +334,6 @@ void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU &dsvt) {
 
 				}
 				hd.dsctdh = listcthd;
-				cout<<hd.dsctdh.n;  //Ket qua tra ve: 1
-				getch();
 				NODEHOADON *p = khoiTaoNODE(hd);
 				themVaoCuoi(l, p);
 				t->data.dshd = &l;
@@ -341,7 +347,32 @@ void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU &dsvt) {
 				if(checkHoaDonExists(l, SoHD)){
 					for(NODEHOADON *k = l.pHead; k!=NULL; k = k->pNext){
 						if(strcmp(k->data.SoHD, SoHD) == 0){
-							xuatThongTinCthd(k->data.dsctdh);
+							// ====== XEM THONG TIN CHI TIET HOA DON =====================
+							system("cls");
+							khungXuatCthd();
+							gotoxy(5, 25);
+							cout<<"Nhan Enter: Thoat";
+							int y = 9;
+							for(int i = 0; i< k->data.dsctdh.n; i++){
+								gotoxy(8, y);
+								cout<<k->data.dsctdh.nodesCTDH[i].Mavt;
+								gotoxy(30, y);
+								cout<<k->data.dsctdh.nodesCTDH[i].Soluong;
+								gotoxy(52, y);
+								cout<<k->data.dsctdh.nodesCTDH[i].Dongia;
+								gotoxy(74, y);
+								cout<<k->data.dsctdh.nodesCTDH[i].VAT;
+								gotoxy(96, y);
+								cout<<k->data.dsctdh.nodesCTDH[i].status;
+								y++;
+							}
+
+							while(true){
+								char endchar = 	getch();
+								if(endchar == ENTER){
+									xemDanhSachHoaDon(t,manv,l,dsvt);
+								}
+							}
 						}
 					}
 				}else{
@@ -371,6 +402,7 @@ void xuatThongTinNhanvien(NHANVIEN x, int y) {
   }
 
 }
+// ============== XUAT DS NHAN VIEN THEO MANG =========================================
 void xuatDanhSachNhanvienTheoMang(TREE &t, LISTHD &l, DSVATTU &dsvt) {
 	DSNHANVIEN ds;
   chuyenCaySangMang(t, ds);

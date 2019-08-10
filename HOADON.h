@@ -193,7 +193,6 @@ NhapLoai:
 			goto CheckTenRong;
 		}
 	}else if (endchar==ENTER){
-		getch();
 		if((strcmp(hd.Loai,"X") != 0) && (strcmp(hd.Loai,"N") != 0)){
 			CheckLoaiHopLe:
 			gotoxy(5,20);

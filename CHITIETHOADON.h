@@ -216,29 +216,26 @@ void nhapThongTinCTHD(CTHD &cthd, DSVATTU &ds, char *Loai){
 
 // ============ XUAT THONG TIN CHI TIET HOA DON =====================================================
 void khungXuatCthd() {
-  int x = 8, y = 5;
+  int x = 6, y = 5;
   cBoard c;
-  c.drawBoard(x, y, 112, 18);
-  gotoxy(x + 11, y + 1);
+  c.drawBoard(x, y, 112, 20);
+  gotoxy(x + 3, y + 1);
   cout << "MA VAT TU";
-  drawDoc(42, y, 42, 18);
-  gotoxy(wherex() + 11, y + 1);
-  cout << "NGAY CAP";
-  drawDoc(76, y, 76, 18);
-  gotoxy(wherex() + 11, y + 1);
-  cout << "LOAI";
-  drawDoc(76, y, 76, 18);
-  gotoxy(wherex() + 11, y + 1);
-  cout << "LOAI";
+  drawDoc(27, y, 27, 20);
+  gotoxy(wherex() + 3, y + 1);
+  cout << "SO LUONG";
+  drawDoc(49, y, 49, 20);
+  gotoxy(wherex() + 3, y + 1);
+  cout << "DON GIA";
+  drawDoc(71, y, 71, 20);
+  gotoxy(wherex() + 3, y + 1);
+  cout << "VAT";
+  drawDoc(93, y, 93, 20);
+  gotoxy(wherex() + 3, y + 1);
+  cout << "TRANG THAI";
+  drawNgang(6, y + 2, 112, y + 2);
 }
 
-void xuatThongTinCthd(LISTCTHD l)
-{
-	for(int i = 0; i< l.n; i++){
-		cout<<"Mavt: "<<l.nodesCTDH[i].Mavt<<" - Soluong: "<<l.nodesCTDH[i].Soluong;
-	}
-	getch();
-}
 
 
 
