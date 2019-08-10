@@ -46,6 +46,7 @@ struct dsmangtam //Dung mang de xuat danh sach vat tu va lam nhiem vu xoa va sua
 };
 typedef struct dsmangtam DSNHANVIEN;
 
+// ================ CHUYEN CAY SANG MANG =====================================
 void chuyenCaySangMang(TREE t, DSNHANVIEN & ds) // chuyen tu cay nhi phan sang mang mot chieu de lam danh sách
 {
 if(t == NULL){
@@ -60,12 +61,14 @@ if(t == NULL){
   }
 }
 
+// ================ Hoan vi ====================================================
 void HoanVi(MANGTAM & x, MANGTAM & y) {
   MANGTAM temp = x;
   x = y;
   y = temp;
 }
 
+//================ Sap xep theo ten ============================================
 void sapXepTheoTen(DSNHANVIEN & ds) {
   for (int i = 0; i < ds.n - 1; i++) {
     for (int j = i + 1; j < ds.n; j++) {
@@ -80,11 +83,11 @@ void sapXepTheoTen(DSNHANVIEN & ds) {
   }
 }
 
+// ============== Check key exists =============================================
 bool checkKeyExists(TREE t, int key) {
   if (t == NULL) {
     return false;
   } else {
-  	
     if (key < t->data.Manv) {
       checkKeyExists(t -> pLeft, key);
     } else if (key > t->data.Manv) {
@@ -113,7 +116,7 @@ void themPhanTuVaoTree(TREE & t, NHANVIEN x) {
 }
 
 // ============= NHAP THONG TIN NHAN VIEN ==============================
-void nhapThongTinNhanVien(TREE t, NHANVIEN & nv, int flg) {
+bool nhapThongTinNhanVien(TREE t, NHANVIEN & nv, int flg) {
   system("cls");
   cBoard c;
   int x = 3, y = 2;
@@ -141,6 +144,7 @@ void nhapThongTinNhanVien(TREE t, NHANVIEN & nv, int flg) {
       	gotoxy(5,10);
         cout<<("Ma nhan vien khong hop le. Nhan Enter de nhap lai.");
         endchar = getch();
+        if(endchar == ESC) return false;
         if(endchar == ENTER){
         	cin.clear(); // reset failbit
     		cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
@@ -180,6 +184,7 @@ void nhapThongTinNhanVien(TREE t, NHANVIEN & nv, int flg) {
     gotoxy(x + 26, y + 5);
     rewind(stdin);
     strcpy(nv.Ho, Nhap(x+26, y+5, 11, endchar));
+    if(endchar == ESC) return false;
     if (strlen(nv.Ho) == 0) {
     	checkHoRong:
     		gotoxy(5,20);
@@ -205,6 +210,7 @@ void nhapThongTinNhanVien(TREE t, NHANVIEN & nv, int flg) {
     gotoxy(x + 26, y + 7);
     rewind(stdin);
     strcpy(nv.Ten, Nhap(x+26, y+7, 11, endchar));
+    if(endchar == ESC) return false;
     if (strlen(nv.Ten) == 0) {
       	checkTenRong:
       	gotoxy(5,20);
@@ -230,7 +236,7 @@ void nhapThongTinNhanVien(TREE t, NHANVIEN & nv, int flg) {
     gotoxy(x + 26, y + 10);
     rewind(stdin);
    strcpy(nv.Phai, NhapSo(x+26,y+10,2, endchar));	
-    if(endchar == ESC) return;
+    if(endchar == ESC) return false;
     if (strcmp(nv.Phai,"0") < 0 || strcmp(nv.Phai,"1") > 0) {
 //    	cin.clear(); // reset failbit
 //    	cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
@@ -244,11 +250,12 @@ void nhapThongTinNhanVien(TREE t, NHANVIEN & nv, int flg) {
 			goto checkPhai;
 		}
     } else if(endchar == ENTER){
-		return;
+		return true;
 	}
   
 }
 
+// ========== Khung nhan vien ===========================
 void khungXuatNhanvien() {
   int x = 8, y = 5;
   cBoard c;
@@ -387,6 +394,7 @@ void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU &dsvt) {
 	}
 }
 
+// ======================Xuat thong tin nhan vien =====================================
 void xuatThongTinNhanvien(NHANVIEN x, int y) {
   gotoxy(9, y);
   cout << x.Manv;
@@ -434,9 +442,10 @@ void xuatDanhSachNhanvienTheoMang(TREE &t, LISTHD &l, DSVATTU &dsvt) {
     } else if (c == KEY_1) {
       Normal();
       NHANVIEN x;
-      nhapThongTinNhanVien(t, x, 1);
-      themPhanTuVaoTree(t, x);
-      getch();
+		if(nhapThongTinNhanVien(t, x, 1)){
+			themPhanTuVaoTree(t, x);
+		}
+		xuatDanhSachNhanvienTheoMang(t,l,dsvt);
       break;
     } else if (c == KEY_2) {
 
@@ -458,33 +467,35 @@ void xuatDanhSachNhanvienTheoMang(TREE &t, LISTHD &l, DSVATTU &dsvt) {
 
 }
 
+// =========== Tim node the mang =============================================
 void timNodeTheMang(TREE & X, TREE & Y) {
-  if (Y -> pLeft != NULL) {
-    timNodeTheMang(X, Y -> pLeft);
+  if (Y->pLeft != NULL) {
+    timNodeTheMang(X, Y->pLeft);
   } else {
-    X -> data = Y -> data;
+    X->data = Y->data;
     X = Y;
-    Y = Y -> pRight;
+    Y = Y->pRight;
   }
 }
 
+// ============== XOA PHAN TU TRONG TREE ======================================
 void xoaPhanTuTrongTree(TREE &t, int manv) {
   if (t == NULL) {
     TaoThongBaoVaMat(5, 15, "Danh sach nhan vien rong. Vui long kiem tra lai.");
     return;
   } else {
     if (manv < t->data.Manv) {
-      xoaPhanTuTrongTree(t -> pLeft, manv);
+      xoaPhanTuTrongTree(t->pLeft, manv);
     } else if (manv > t->data.Manv) {
-      xoaPhanTuTrongTree(t -> pRight, manv);
+      xoaPhanTuTrongTree(t->pRight, manv);
     } else {
-      NODENHANVIEN * X = t;
-      if (t -> pLeft == NULL) {
-        t = t -> pRight;
-      } else if (t -> pRight == NULL) {
-        t = t -> pLeft;
+      NODENHANVIEN *X = t; //Cho NODENHANVIEN X tro den t, khi xoa X <=> Xoa t
+      if (t->pLeft == NULL) {
+        t = t->pRight;
+      } else if (t->pRight == NULL) {
+        t = t->pLeft;
       } else {
-        timNodeTheMang(X, t -> pRight);
+        timNodeTheMang(X, t->pRight);
       }
       delete X;
     }
@@ -511,6 +522,7 @@ TREE timTree(TREE t, int manv) {
   else return t;
 }
 
+// ================ LUU DANH SACH HOA DON VAO TREE ========================
 void luuDanhSachHoaDonVaoTree(TREE &t, LISTHD &l, int manv){
 	if (t == NULL) return;
 	if(t != NULL){
@@ -524,6 +536,7 @@ void luuDanhSachHoaDonVaoTree(TREE &t, LISTHD &l, int manv){
 	}
 }
 
+// ========== DOC FILE NHAN VIEN ===========================================
 void docMotNhanvien(ifstream &filein, NHANVIEN & x) {
 	string tmp;
   	filein >> x.Manv;
