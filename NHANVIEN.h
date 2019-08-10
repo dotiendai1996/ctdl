@@ -270,7 +270,7 @@ void khungXuatNhanvien() {
 
 }
 TREE timTree(TREE t, int manv);
-void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU dsvt) {
+void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU &dsvt) {
 	
 	if(t!=NULL){
 		if(t->data.Manv < manv){
@@ -281,7 +281,7 @@ void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU dsvt) {
 
 		system("cls");
 		if(t->data.dshd == NULL){
-			cout<<"Nhan vien nay chua co hoa don";
+			cout<<"Nhan vien nay chua co hoa don. Nhan phim 1 de them hoa don, hoac nhan ESC de thoat.";
 		}else{
 			khungXuatHoaDon();
 			int x = 8; int y = 5;
@@ -295,8 +295,8 @@ void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU dsvt) {
 				y++;
 			}
 		}
-	    gotoxy(3, 20);
-	  	cout << "Nhan 1: Them don hang     Nhan ESC: Thoat";
+	    gotoxy(3, 22);
+	  	cout << "Nhan 1: Them don hang       Nhan 2: Xem don hang        Nhan ESC: Thoat";
 	  	fflush(stdin);
 		while(true){
 			
@@ -313,6 +313,8 @@ void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU dsvt) {
 				HOADON hd;
 				themThongTinHoaDon(hd,l);
 				//Khoi tao chi tiet hoa don
+				system("cls");
+				gotoxy(3,2);
 				int n;
 				cout<<"Nhap so luong vat tu muon them vao hoa don:";
 				cin >>n;
@@ -328,38 +330,26 @@ void xemDanhSachHoaDon(TREE &t, int manv, LISTHD &l, DSVATTU dsvt) {
 				getch();
 				NODEHOADON *p = khoiTaoNODE(hd);
 				themVaoCuoi(l, p);
-				for(NODEHOADON *k = l.pHead; k != NULL; k = k->pNext){
-					cout<<k->data.dsctdh.n;
-				}
-				getch();
-				cout<<l.pHead->data.SoHD;
-				getch();
 				t->data.dshd = &l;
-
-				for(int i = 0; i<l.pHead->data.dsctdh.n; i++){
-					cout<<listcthd.nodesCTDH[i].Mavt<<endl;
-				}
-				getch();
 				xemDanhSachHoaDon(t, manv, l, dsvt);
 				
 			}else if(c == KEY_2){
 				char SoHD[10];
-				gotoxy(2,2);
+				gotoxy(3,2);
 				cout<<"Nhap so hoa don: ";
 				cin>>SoHD;
-				cout<<l.pHead->data.SoHD;
-				getch();
-				
-				for(NODEHOADON *k = l.pHead; k != NULL; k = k->pNext){
-					if(strcmp(k->data.SoHD, SoHD) == 0){
-						cout<<"oke";
-						getch();
-						cout<<k->data.dsctdh.n;
-						getch();
-						xuatDanhSachCthd(k->data.dsctdh);
+				if(checkHoaDonExists(l, SoHD)){
+					for(NODEHOADON *k = l.pHead; k!=NULL; k = k->pNext){
+						if(strcmp(k->data.SoHD, SoHD) == 0){
+							xuatThongTinCthd(k->data.dsctdh);
+						}
 					}
+				}else{
+					gotoxy(5,20);
+					cout<<"So hoa don khong ton tai. Vui long kiem tra lai.";
+					getch();
+					xemDanhSachHoaDon(t, manv, l, dsvt);
 				}
-				cout<<"a"; getch();
 				break;
 			}
 		}
@@ -381,7 +371,7 @@ void xuatThongTinNhanvien(NHANVIEN x, int y) {
   }
 
 }
-void xuatDanhSachNhanvienTheoMang(TREE &t, LISTHD &l, DSVATTU dsvt) {
+void xuatDanhSachNhanvienTheoMang(TREE &t, LISTHD &l, DSVATTU &dsvt) {
 	DSNHANVIEN ds;
   chuyenCaySangMang(t, ds);
   sapXepTheoTen(ds);

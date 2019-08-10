@@ -75,7 +75,7 @@ bool nhapThongTinVattu(DSVATTU ds, VATTU & vt, int flg) {
 		endchar = getch();
 		if(endchar==ENTER){
 			gotoxy(5,20);
-			cout<<"                                                    ";
+			cout<<"                                                                                 ";
 			goto NhapMaVattu;
 		}else
 			goto CheckMaRong;
@@ -90,7 +90,7 @@ bool nhapThongTinVattu(DSVATTU ds, VATTU & vt, int flg) {
 			endchar = getch();
 			if(endchar==ENTER){
 				gotoxy(5,20); 
-				cout<<"                                                 ";
+				cout<<"                                                                               ";
 				goto NhapMaVattu;
 			}else{
 				goto CheckMaTrung;
@@ -120,7 +120,7 @@ bool nhapThongTinVattu(DSVATTU ds, VATTU & vt, int flg) {
       	endchar = getch();
       if(endchar == ENTER){
       	gotoxy(5,20);
-      	cout<<"                                                         ";
+      	cout<<"                                                                                ";
       	goto NhapTenVattu;
 	  }else{
 	  	goto CheckTenRong;
@@ -147,7 +147,7 @@ bool nhapThongTinVattu(DSVATTU ds, VATTU & vt, int flg) {
 			endchar = getch();
 			if(endchar==ENTER){
 				gotoxy(5,20); 
-				cout<<"                                                             ";
+				cout<<"                                                                                ";
 				goto NhapDonViTinh;
 			}else{
 				goto checkDonViTinhRong;
@@ -179,7 +179,7 @@ NhapSoLuongTon:
 					cin.clear(); // reset failbit
     				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
 					gotoxy(5,20);
-					cout<<"                                                       ";
+					cout<<"                                                                                       ";
 					goto NhapSoLuongTon;
 				}else{
 					goto checkSoLuongTon;
@@ -360,6 +360,22 @@ int laySlt(DSVATTU ds, char *mavt){
 		}
 	}
 	return -1;
+}
+
+void capNhatSoLuongTon(char *mavt, DSVATTU &ds, float sl, int flg){
+	if(flg == 1){
+		for(int i = 0; i < ds.n; i++){
+			if(strcmp(ds.nodes[i]->Mavt,mavt) == 0){
+				ds.nodes[i]->Soluongton = ds.nodes[i]->Soluongton + sl;
+			}
+		}
+	}else if(flg == 2){
+				for(int i = 0; i < ds.n; i++){
+			if(strcmp(ds.nodes[i]->Mavt,mavt) == 0){
+				ds.nodes[i]->Soluongton = ds.nodes[i]->Soluongton - sl;
+			}
+		}
+	}
 }
 
 void docFileVattu(DSVATTU & ds) {

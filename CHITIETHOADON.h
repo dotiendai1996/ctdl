@@ -63,7 +63,7 @@ void xoaCthd(LISTCTHD &l, int vitri){
 	return;
 }
 
-void nhapThongTinCTHD(CTHD &cthd, DSVATTU ds, char *Loai){
+void nhapThongTinCTHD(CTHD &cthd, DSVATTU &ds, char *Loai){
 	
 	system("cls");
 	cBoard c;
@@ -202,14 +202,38 @@ void nhapThongTinCTHD(CTHD &cthd, DSVATTU ds, char *Loai){
 		}
 		
 	setTrangThai:
-		cthd.status = 1;
+		if(strcmp(Loai,"X") == 0){
+			cthd.status = 1;
+			capNhatSoLuongTon(cthd.Mavt, ds,cthd.Soluong, 2);
+			return;
+		}else if(strcmp(Loai,"N") == 0){
+			capNhatSoLuongTon(cthd.Mavt, ds,cthd.Soluong, 1);
+			return;
+		}
 		return;
 }
 
-void xuatDanhSachCthd(LISTCTHD l)
+
+// ============ XUAT THONG TIN CHI TIET HOA DON =====================================================
+void khungXuatCthd() {
+  int x = 8, y = 5;
+  cBoard c;
+  c.drawBoard(x, y, 112, 18);
+  gotoxy(x + 11, y + 1);
+  cout << "MA VAT TU";
+  drawDoc(42, y, 42, 18);
+  gotoxy(wherex() + 11, y + 1);
+  cout << "NGAY CAP";
+  drawDoc(76, y, 76, 18);
+  gotoxy(wherex() + 11, y + 1);
+  cout << "LOAI";
+  drawDoc(76, y, 76, 18);
+  gotoxy(wherex() + 11, y + 1);
+  cout << "LOAI";
+}
+
+void xuatThongTinCthd(LISTCTHD l)
 {
-	cout<<l.n;
-	
 	for(int i = 0; i< l.n; i++){
 		cout<<"Mavt: "<<l.nodesCTDH[i].Mavt<<" - Soluong: "<<l.nodesCTDH[i].Soluong;
 	}

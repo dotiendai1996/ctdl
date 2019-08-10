@@ -58,7 +58,7 @@ void xuLyMenuVattu(DSVATTU &dsvt){
 }
 
 // ================================ XU LY MENU NHAN VIEN ===================================
-void xuLyMenuNhanvien(TREE &t, DSNHANVIEN &dsnv, LISTHD &l, DSVATTU dsvt){
+void xuLyMenuNhanvien(TREE &t, DSNHANVIEN &dsnv, LISTHD &l, DSVATTU &dsvt){
 	int endchar;
 				int chonNv = MenuDong(menunv,MAX_MENU_NHANVIEN);
 			switch(chonNv){

@@ -38,6 +38,7 @@ NODEHOADON *khoiTaoNODE(HOADON hd){
 	memcpy(p->data.SoHD,hd.SoHD,sizeof(hd.SoHD)) ;
 	p->data.Ngay = hd.Ngay;
 	memcpy(p->data.Loai,hd.Loai,sizeof(hd.Loai)) ;
+	p->data.dsctdh = hd.dsctdh;
 	p->pNext = NULL;
 	return p;
 }
@@ -69,7 +70,7 @@ void themVaoCuoi(LISTHD &l, NODEHOADON *p){
 bool checkHoaDonExists(LISTHD l, char *SoHD){
 	if(l.pHead == NULL) return false;
 	for(NODEHOADON *p = l.pHead; p != NULL; p = p->pNext){
-		if(p->data.SoHD == SoHD){
+		if(strcmp(p->data.SoHD, SoHD) == 0){
 			return true;
 		}
 	}
