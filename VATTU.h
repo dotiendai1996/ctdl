@@ -4,19 +4,18 @@
 using namespace std;
 
 #define MAX_VATTU 1000
-# define MAX_MENU_VATTU 4
+# define MAX_MENU_VATTU 3
 
 char menuvt[MAX_MENU_VATTU][50] = {
   "1. XEM DANH SACH VAT TU.",
   "2. THEM VAT TU.         ",
-  "3. SUA VAT TU.          ",
-  "4. TRO VE MENU CHINH.   "
+  "3. TRO VE MENU CHINH.   "
 };
 
 //Khai bao cau truc cua mot phan tu mang
 struct vattu {
   char Mavt[11];
-  char Tenvt[11];
+  char Tenvt[21];
   char Dvt[11];
   float Soluongton;
 };
@@ -29,14 +28,16 @@ struct listVattu {
 };
 typedef struct listVattu DSVATTU;
 
+//=================== CHECK EMPTY ==========================================
 bool checkDsVattuEmpty(DSVATTU ds) {
   return (ds.n == 0 ? true : false);
 }
 
+//=================== CHECK FULL ===========================================
 bool checkDsVattuFull(DSVATTU ds) {
   return (ds.n == MAX_VATTU ? true : false);
 }
-
+// =================== CHECK MAVT EXISTS ====================================
 bool checkMavtExist(DSVATTU ds, char *mavt) {
   if (ds.n == 0) return false;
   for (int i = 0; i < ds.n; i++) {
@@ -46,6 +47,8 @@ bool checkMavtExist(DSVATTU ds, char *mavt) {
   }
   return false;
 }
+
+// ==================== NHAP THONG TIN VAT TU ================================
 bool nhapThongTinVattu(DSVATTU ds, VATTU & vt, int flg) {
   system("cls");
   cBoard c;
@@ -70,11 +73,13 @@ bool nhapThongTinVattu(DSVATTU ds, VATTU & vt, int flg) {
 	if (endchar==ESC) return false;
 	if(!strlen(vt.Mavt)){
 	CheckMaRong:	//CheckMaRong
-		gotoxy(5,20);
+		    SetColor(RED);
+    		gotoxy(5,22);
 			cout<<"Ma vat tu khong duoc rong. Nhan Enter de nhap lai.";
-		endchar = getch();
+			endchar = getch();
 		if(endchar==ENTER){
-			gotoxy(5,20);
+			SetColor(YELLOW);
+			gotoxy(5,22);
 			cout<<"                                                                                 ";
 			goto NhapMaVattu;
 		}else
@@ -85,11 +90,14 @@ bool nhapThongTinVattu(DSVATTU ds, VATTU & vt, int flg) {
 			goto NhapTenVattu;
 		}else{
 			CheckMaTrung:	//CheckMaTrung
-			gotoxy(5,20);
+			    SetColor(RED);
+    			gotoxy(5,22);
 				cout<<"Ma vat tu da ton tai. Nhan Enter de nhap lai. ";
-			endchar = getch();
-			if(endchar==ENTER){
-				gotoxy(5,20); 
+				endchar = getch();
+			if(endchar == ESC) return false;
+			if(endchar == ENTER){
+				SetColor(YELLOW);
+				gotoxy(5,22); 
 				cout<<"                                                                               ";
 				goto NhapMaVattu;
 			}else{
@@ -111,17 +119,20 @@ bool nhapThongTinVattu(DSVATTU ds, VATTU & vt, int flg) {
     cout << "                                ";
     gotoxy(x + 23, y + 5);
     rewind(stdin);
-    strcpy(vt.Tenvt, NhapWithSpace(x+23, y+5, 11, endchar));
+    strcpy(vt.Tenvt, NhapWithSpace(x+23, y+5, 21, endchar));
     if (endchar==ESC) return false;
 	if (strlen(vt.Tenvt) == 0) { //CheckTenRong
 	CheckTenRong:
-		gotoxy(5,20);
+		SetColor(RED);
+    	gotoxy(5,22);
       	cout<<"Ten vat tu khong duoc rong. Nhan Enter de nhap lai.";
       	endchar = getch();
-      if(endchar == ENTER){
-      	gotoxy(5,20);
-      	cout<<"                                                                                ";
-      	goto NhapTenVattu;
+      	if(endchar == ESC) return false;
+      	if(endchar == ENTER){
+      		SetColor(YELLOW);
+      		gotoxy(5,22);
+      		cout<<"                                                                                ";
+      		goto NhapTenVattu;
 	  }else{
 	  	goto CheckTenRong;
 	  }
@@ -132,9 +143,9 @@ bool nhapThongTinVattu(DSVATTU ds, VATTU & vt, int flg) {
 
   //Don vi tinh
   	NhapDonViTinh:
-  gotoxy(x + 3, y + 7);
-  cout << "Nhap don vi tinh: ";
-  gotoxy(x + 23, y + 7);
+  	gotoxy(x + 3, y + 7);
+  	cout << "Nhap don vi tinh: ";
+  	gotoxy(x + 23, y + 7);
     cout << "                                ";
     gotoxy(x + 23, y + 7);
     rewind(stdin);
@@ -142,11 +153,14 @@ bool nhapThongTinVattu(DSVATTU ds, VATTU & vt, int flg) {
     if (endchar==ESC) return false;
     if(strlen(vt.Dvt) == 0){
     	checkDonViTinhRong:
-    	gotoxy(5,20);
-				cout<<"Don vi tinh khong duoc rong. Nhan Enter de nhap lai. ";
+        	SetColor(RED);
+    		gotoxy(5,22);
+			cout<<"Don vi tinh khong duoc rong. Nhan Enter de nhap lai. ";
 			endchar = getch();
+			if(endchar == ESC) return false;
 			if(endchar==ENTER){
-				gotoxy(5,20); 
+				SetColor(YELLOW);
+				gotoxy(5,22); 
 				cout<<"                                                                                ";
 				goto NhapDonViTinh;
 			}else{
@@ -168,60 +182,70 @@ NhapSoLuongTon:
       cout << "                                ";
       gotoxy(x + 23, y + 9);
       cin >> vt.Soluongton;
-      	endchar = getch();
-       if (endchar==ESC) return false;
+      //	endchar = getch();
+      // if (endchar==ESC) return false;
       if(vt.Soluongton < 0 || !cin){
       		checkSoLuongTon: //checkSoLuongTon
-      			gotoxy(5,20);
-					cout<<"So luong ton khong hop le. Nhan Enter de nhap lai. ";
+      			SetColor(RED);
+    			gotoxy(5,22);
+				cout<<"So luong ton khong hop le. Nhan Enter de nhap lai. ";
 				endchar = getch();
+				if(endchar == ESC) return false;
 				if(endchar==ENTER){
 					cin.clear(); // reset failbit
     				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
-					gotoxy(5,20);
-					cout<<"                                                                                       ";
+					gotoxy(5,22);
+					cout<<"                                                                                  ";
 					goto NhapSoLuongTon;
 				}else{
 					goto checkSoLuongTon;
 				}
-	  }else if(endchar == ENTER){
-	  	return true;
 	  }else{
-	  	goto NhapSoLuongTon;
+	  	return true;
 	  }
+//	  else if(endchar == ENTER){
+//	  	return true;
+//	  }else{
+//	  	goto NhapSoLuongTon;
+//	  }
   }
 }
 
+// ============ THEM VAT TU VAO CUOI =======================================
 void themVattuVaoCuoi(DSVATTU & ds, VATTU vt) {
   if (!checkDsVattuFull(ds)) {
     ds.nodes[ds.n] = new VATTU;
     *ds.nodes[ds.n] = vt;
     ds.n++;
   } else {
-    TaoThongBaoVaMat(5, 20, "Danh sach day, khong the them.");
-    getch();
-    return;
-  }
+  	    SetColor(RED);
+    	gotoxy(5,22);
+    	cout<<"Danh sach day, khong the them.";
+    	getch();
+    	return;
+  	}
 }
 
+// =============== Hoan vi ===================================================
 void hoanViVattu(VATTU *vt1, VATTU *vt2){
 	VATTU tmp = *vt1;
 	*vt1 = *vt2;
 	*vt2 = tmp;
 }
 
+// ============== SAP XEP TEN VAT TU =========================================
 void sapXepTenVattu(DSVATTU &ds){
 	for(int i = 0; i< ds.n-1; i++){
 		for(int j = i+1; j <ds.n; j++){
 			if(strcmp(ds.nodes[i]->Tenvt,ds.nodes[j]->Tenvt) > 0){
-			hoanViVattu(ds.nodes[i], ds.nodes[j]);
+				hoanViVattu(ds.nodes[i], ds.nodes[j]);
 			}
 		}
 	}
 }
 
+// ====================== XUAT THONG TIN VAT TU ============================
 void xuatThongTinVattu(VATTU vt, int y) {
-
   gotoxy(9, y);
   cout << vt.Mavt;
   gotoxy(37, y);
@@ -232,6 +256,7 @@ void xuatThongTinVattu(VATTU vt, int y) {
   cout << vt.Soluongton;
 }
 
+// ============== Khung xuat vat tu =====================================
 void khungXuatVattu() {
   int x = 8, y = 5;
   cBoard c;
@@ -251,6 +276,7 @@ void khungXuatVattu() {
 
 }
 
+// ============== TIM VI TRI VAT TU =====================================
 int timViTriVattu(DSVATTU ds, string Mavt) {
   if (!checkDsVattuEmpty(ds)) {
     for (int i = 0; i < ds.n; i++) {
@@ -258,32 +284,39 @@ int timViTriVattu(DSVATTU ds, string Mavt) {
         return i;
       }
     }
-
     SetColor(RED);
-    TaoThongBaoVaMat(5, 21, "Khong tim thay vat tu ban nhap. Vui long kiem tra lai.");
+    gotoxy(5,22);
+    cout<<"Khong tim thay vat tu ban nhap. Vui long kiem tra lai.";
+    getch();
     return -1;
   } else {
-    TaoThongBaoVaMat(5, 20, "Danh sach rong. Vui long kiem tra lai.");
+    SetColor(RED);
+    gotoxy(5,22);
+    cout<<"Danh sach rong. Vui long kiem tra lai.";
     getch();
     return -1;
   }
 }
+
+// ================ XOA VAT TU ====================================
 void xoaVattu(DSVATTU & ds, int vitri) {
-  if (!checkDsVattuEmpty(ds)) {
-    for (int i = vitri; i < ds.n - 1; i++) {
-      * ds.nodes[i] = * ds.nodes[i + 1];
-
-    }
-    delete ds.nodes[ds.n - 1];
-    ds.n--;
-    return;
-  } else {
-    cout << "Hien khong co vat tu nao. Vui long kiem tra lai.";
-    getch();
-    return;
-  }
+  	if (!checkDsVattuEmpty(ds)) {
+    	for (int i = vitri; i < ds.n - 1; i++) {
+      		*ds.nodes[i] = *ds.nodes[i + 1];
+    	}
+    	delete ds.nodes[ds.n - 1];
+    	ds.n--;
+    	return;
+  	}else {
+  		SetColor(RED);
+    	gotoxy(5,22);
+    	cout<<"Hien khong co vat tu nao. Vui long kiem tra lai.";
+    	getch();
+    	return;
+  	}
 }
 
+// =================== SUA VAT TU ==========================================
 void suaVattu(DSVATTU & ds, int vitri, VATTU vt) {
   // ds.nodes[vitri]->Mavt = vt.Mavt;
   strcpy(ds.nodes[vitri]->Tenvt, vt.Tenvt);
@@ -291,6 +324,8 @@ void suaVattu(DSVATTU & ds, int vitri, VATTU vt) {
   // ds.nodes[vitri]->Soluongton = vt.Soluongton;
 }
 
+// ===================== XUAT DANH SACH VAT TU ===========================================
+void ghiFileVATTU(DSVATTU ds);
 void xuatDanhSachVattu(DSVATTU &ds) {
   system("cls");
   khungXuatVattu();
@@ -319,6 +354,7 @@ void xuatDanhSachVattu(DSVATTU &ds) {
       VATTU * vt = new VATTU;
     	if(nhapThongTinVattu(ds, * vt, 1)){
     		themVattuVaoCuoi(ds, * vt);
+    		ghiFileVATTU(ds);
 		}
 		xuatDanhSachVattu(ds);
       break;
@@ -352,6 +388,7 @@ void xuatDanhSachVattu(DSVATTU &ds) {
   }
 }
 
+// ========== LAY SO LUONG TON ==============================================
 int laySlt(DSVATTU ds, char *mavt){
 	if(ds.n == 0) return -1;
 	for(int i = 0; i<ds.n; i++){
@@ -362,6 +399,7 @@ int laySlt(DSVATTU ds, char *mavt){
 	return -1;
 }
 
+// ============ CAP NHAT SO LUONG TON =========================================
 void capNhatSoLuongTon(char *mavt, DSVATTU &ds, float sl, int flg){
 	if(flg == 1){
 		for(int i = 0; i < ds.n; i++){
@@ -378,17 +416,20 @@ void capNhatSoLuongTon(char *mavt, DSVATTU &ds, float sl, int flg){
 	}
 }
 
+// ================== DOC FILE ===========================================
 void docFileVattu(DSVATTU & ds) {
   ifstream filein;
   filein.open("VATTU.txt", ios_base:: in );
   if (filein.fail()) {
+  	SetColor(RED);
+    gotoxy(5,22);
     cout << "File khong mo duoc. Vui long kiem tra lai.";
     getch();
     return;
   }
   while (true) {
     VATTU vt;
-       string tmp;
+    string tmp;
     filein >> vt.Mavt;
     getline(filein, tmp);
    	filein >> vt.Tenvt;
@@ -403,6 +444,22 @@ void docFileVattu(DSVATTU & ds) {
     }
   }
   filein.close();
+}
+
+void ghiFileVATTU(DSVATTU ds){
+	fstream f("VATTU.txt", ios::out | ios::trunc);
+	string xuongHang;
+	for(int i = 0; i<ds.n; i++){
+		f << ds.nodes[i]->Mavt << endl;
+		f << ds.nodes[i]->Tenvt << endl;
+		f << ds.nodes[i]->Dvt << endl;
+		if(i < ds.n-1){
+			f << ds.nodes[i]->Soluongton<<endl;
+		}else if(i == ds.n-1){
+			f << ds.nodes[i]->Soluongton;
+		}
+	}
+	f.close();
 }
 
 //Ham giai phong vung nho

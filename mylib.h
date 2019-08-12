@@ -14,8 +14,8 @@
 #include <limits>
 
 const int ESC =27;
-const int dong =5;
-const int cot = 20 ;
+const int dong =13;
+const int cot = 40 ;
 const int Up = 72;
 const int Down = 80;
 const int UP =72+128; // 200
@@ -34,6 +34,7 @@ using namespace std;
 #define BLACK 0
 #define WHITE 15
 #define RED 4
+#define YELLOW 14
 
 #define KEY_ENTER 13
 #define KEY_ESC 27
@@ -266,10 +267,12 @@ inline void drawBoard(int x1, int y1, int x2, int y2, int color=14,char *title=N
 		multiPut(i+(x2+x1)/2-strlen(title)/2,y1,*(title+i),ttColor);
 		}
 	};
-	
-	int MenuDong(char td [][50],int so_item){
+void title();
+int MenuDong(char td [][50],int so_item){
   Normal();
   system("cls");   int chon =0;
+  	title();
+  	SetColor(WHITE);
   int i; 
   for ( i=0; i< so_item ; i++)
   { gotoxy(cot, dong +i);
@@ -314,7 +317,7 @@ do {
 }
 
 char* Nhap(int x, int y, int n , int &endchar) { 
-	char *S=new char [n+1]; 
+	char *S=new char [n]; 
 	int i=0; 
 	int c;
 	gotoxy (x, y);
@@ -344,7 +347,7 @@ char* Nhap(int x, int y, int n , int &endchar) {
 }
 
 char* NhapSo(int x, int y, int n , int &endchar) { 
-	char *S=new char [n+1]; 
+	char *S=new char [n]; 
 	int i=0; 
 	int c;
 	gotoxy (x, y);
@@ -374,14 +377,14 @@ char* NhapSo(int x, int y, int n , int &endchar) {
 }
 
 char* NhapWithSpace(int x, int y, int n , int &endchar) { 
-	char *S=new char [n+1]; 
+	char *S=new char [n]; 
 	int i=0; 
 	int c;
 	gotoxy (x, y);
 	while (1) { 
 	    endchar =' ';
 		c=getch(); 		
-	//	c=toupper(c);
+		c=toupper(c);
 		if (c==224 || c==0) { 
 		 c=getch() ;		 c+=128;
 		}
@@ -403,4 +406,28 @@ char* NhapWithSpace(int x, int y, int n , int &endchar) {
 	}
 	S[i]=NULL; 
 	return S;
+}
+
+int random(){
+	srand(time(0)); //can NULL
+	int a = rand() % 100 + 1;
+	return a;
+}
+
+void title(){ 
+	SetColor(5);
+	gotoxy(35,5);
+	cout<<" _______  ___      __   __  _______ ";
+	gotoxy(35,6);
+	cout<<"|       ||   |    |  | |  ||       |";
+	gotoxy(35,7);
+	cout<<"|   _   ||   |    |  |_|  ||_     _|";
+	gotoxy(35,8);
+	cout<<"|  | |  ||   |    |       |  |   |  ";
+	gotoxy(35,9);
+	cout<<"|  |_|  ||   |___ |       |  |   |  ";
+	gotoxy(35,10);
+	cout<<"|      | |       | |     |   |   |  ";
+	gotoxy(35,11);
+	cout<<"|____||_||_______|  |___|    |___|  ";
 }

@@ -56,20 +56,38 @@ void themVaoDau(LISTHD &l, NODEHOADON *p){
 }
 
 // ====== Ham them NODE p vao cuoi danh sach lk =========================================
-void themVaoCuoi(LISTHD &l, NODEHOADON *p){
+//void themVaoCuoi(LISTHD &l, NODEHOADON *p){
+//	//neu ds rong
+//	if(l.pHead == NULL){
+//		l.pHead = l.pTail = p; //Node dau cung chinh la node cuoi la p
+//	}else{
+//		l.pTail->pNext = p; // Cho con tro cua pTail lien ket voi NODE p
+//		l.pTail = p; // Cap nhat lai pTail la p
+//	}
+//}
+void themVaoCuoi(LISTHD *l, NODEHOADON *p){
 	//neu ds rong
-	if(l.pHead == NULL){
-		l.pHead = l.pTail = p; //Node dau cung chinh la node cuoi la p
+	if(l->pHead == NULL){
+		l->pHead = l->pTail = p; //Node dau cung chinh la node cuoi la p
 	}else{
-		l.pTail->pNext = p; // Cho con tro cua pTail lien ket voi NODE p
-		l.pTail = p; // Cap nhat lai pTail la p
+		l->pTail->pNext = p; // Cho con tro cua pTail lien ket voi NODE p
+		l->pTail = p; // Cap nhat lai pTail la p
 	}
 }
 
 // ======= Ham kiem tra so hoa don ton tai hay chua? =====================================
-bool checkHoaDonExists(LISTHD l, char *SoHD){
-	if(l.pHead == NULL) return false;
-	for(NODEHOADON *p = l.pHead; p != NULL; p = p->pNext){
+//bool checkHoaDonExists(LISTHD l, char *SoHD){
+//	if(l.pHead == NULL) return false;
+//	for(NODEHOADON *p = l.pHead; p != NULL; p = p->pNext){
+//		if(strcmp(p->data.SoHD, SoHD) == 0){
+//			return true;
+//		}
+//	}
+//	return false;
+//}
+bool checkHoaDonExists(LISTHD *l, char *SoHD){
+	if(l->pHead == NULL) return false;
+	for(NODEHOADON *p = l->pHead; p != NULL; p = p->pNext){
 		if(strcmp(p->data.SoHD, SoHD) == 0){
 			return true;
 		}
@@ -127,7 +145,7 @@ void xoaViTriBatKiLISTHD(LISTHD &l, char *SoHD){
 }
 
 // ======================= THONG TIN HOA DON ================================================
-void themThongTinHoaDon(HOADON &hd, LISTHD l){
+bool themThongTinHoaDon(HOADON &hd, LISTHD *l){
 	system("cls");
 	cBoard c;
 	int x = 3, y = 2; int endchar; 
@@ -140,7 +158,7 @@ NhapSoHD:
    	cout<<"Nhap so hoa don:";
 	gotoxy(x+23,y+3); cout<<"                                ";
 	strcpy(hd.SoHD, Nhap(x+23,y+3,10, endchar));		
-	if (endchar==ESC) return;
+	if (endchar==ESC) return false;
 	if(!strlen(hd.SoHD)){
 	CheckMaRong:	//CheckMaRong
 		gotoxy(5,20);
@@ -148,7 +166,7 @@ NhapSoHD:
 		endchar =getch();
 		if(endchar==ENTER){
 			gotoxy(5,20);
-			cout<<"                                          ";
+			cout<<"                                                                             ";
 			goto NhapSoHD;
 		}else
 			goto CheckMaRong;
@@ -163,7 +181,7 @@ NhapSoHD:
 			endchar =getch();
 			if(endchar==ENTER){
 				gotoxy(55,5);
-				cout<<"                                          ";
+				cout<<"                                                                              ";
 				goto NhapSoHD;
 			}else
 				goto CheckMaTrung;
@@ -178,8 +196,7 @@ NhapLoai:
 	gotoxy(x + 23, y + 5);
 	cout<<"                      ";
 	strcpy(hd.Loai, Nhap(x+23,y+5,2, endchar));
-	if (endchar==ESC) return; 
-	
+	if (endchar==ESC) return false;
 	if(!strlen(hd.Loai)){
 	CheckTenRong:	//CheckTenRong
 		gotoxy(5,20);
@@ -187,7 +204,7 @@ NhapLoai:
 		endchar =getch();
 		if(endchar==ENTER){
 			gotoxy(5,20);
-			cout<<"                                             ";
+			cout<<"                                                                                     ";
 			goto NhapLoai;
 		}else{
 			goto CheckTenRong;
@@ -200,11 +217,11 @@ NhapLoai:
 			endchar =getch();
 			if(endchar==ENTER){
 				gotoxy(5,20);
-				cout<<"                                           ";
+				cout<<"                                                                               ";
 				goto NhapLoai;
 			}else
 				goto CheckLoaiHopLe;
-		}else return;
+		}else return true;
 	}
 }
 

@@ -76,15 +76,16 @@ void nhapThongTinCTHD(CTHD &cthd, DSVATTU &ds, char *Loai){
 		gotoxy(x + 3, y + 3);
 	   	cout<<"Nhap ma vat tu:";
 		gotoxy(x+23,y+3); cout<<"                                ";
-		strcpy(cthd.Mavt, Nhap(x+23,y+3,10, endchar));		
-		if (endchar==ESC) return;
+		strcpy(cthd.Mavt, Nhap(x+23,y+3,10, endchar));
 		if(strlen(cthd.Mavt) == 0){
 			checkMaVattuRong:
-				gotoxy(5,20);
+				SetColor(RED);
+				gotoxy(5,22);
 				cout<<"Ma vat tu khong duoc rong. Nhan ENTER de nhap lai.";
 				endchar = getch();
 				if(endchar == ENTER){
-					gotoxy(5,20);
+					SetColor(YELLOW);
+					gotoxy(5,22);
 					cout<<"                                    ";
 					goto NhapMaVattu;
 				}else{
@@ -93,12 +94,14 @@ void nhapThongTinCTHD(CTHD &cthd, DSVATTU &ds, char *Loai){
 		}else if (endchar == ENTER){
 			if(!checkMavtExist(ds, cthd.Mavt)){
 				checkMavtTonTai:
-					gotoxy(5,20);
+					SetColor(RED);
+					gotoxy(5,22);
 					cout<<"Ma vat tu khong ton tai trong danh sach. Nhan ENTER de nhap lai.";
 					endchar = getch();
 					if(endchar == ENTER){
-						gotoxy(5,20);
-						cout<<"                                 ";
+						SetColor(YELLOW);
+						gotoxy(5,22);
+						cout<<"                                                                                ";
 						goto NhapMaVattu;
 					}else{
 						goto checkMavtTonTai;
@@ -116,14 +119,16 @@ void nhapThongTinCTHD(CTHD &cthd, DSVATTU &ds, char *Loai){
 		cin >> cthd.Soluong;
 		if(cthd.Soluong < 0 || !cin){
 			checkNhapSoLuong:
-				gotoxy(5,20);
+				SetColor(RED);
+				gotoxy(5,22);
 				cout<<"So luong nhap khong hop le. Nhan ENTER de nhap lai.";
 				endchar == getch();
 				if(endchar == ENTER){
-					gotoxy(5,20);
+					SetColor(YELLOW);
+					gotoxy(5,22);
 					cin.clear(); // reset failbit
     				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
-    				cout<<"                                                      ";
+    				cout<<"                                                                             ";
     				goto nhapSoLuong;
 				}else{
 					goto checkNhapSoLuong;
@@ -133,12 +138,14 @@ void nhapThongTinCTHD(CTHD &cthd, DSVATTU &ds, char *Loai){
 				float slt = laySlt(ds, cthd.Mavt);
 				if(slt < cthd.Soluong){
 					checkSlt:
-						gotoxy(5,20);
+						SetColor(RED);
+						gotoxy(5,22);
 						cout<<"So luong ton khong du, trong kho con "<<slt<<" vat tu";
 						endchar == getch();
 						if(endchar == ENTER){
-							gotoxy(5,20);
-							cout<<"                                                               ";
+							SetColor(YELLOW);
+							gotoxy(5,22);
+							cout<<"                                                                             ";
 							goto nhapSoLuong;
 						}else{
 							goto checkSlt;
@@ -156,14 +163,16 @@ void nhapThongTinCTHD(CTHD &cthd, DSVATTU &ds, char *Loai){
 		cin >> cthd.Dongia;
 		if(cthd.Dongia < 0 || !cin){
 			checkNhapDonGia:
-				gotoxy(5,20);
+				SetColor(RED);
+				gotoxy(5,22);
 				cout<<"Don gia khong hop le. Nhan ENTER de nhap lai.";
 				endchar == getch();
 				if(endchar == ENTER){
+					SetColor(YELLOW);
 					cin.clear(); // reset failbit
     				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
-					gotoxy(5,20);
-    				cout<<"                                                      ";
+					gotoxy(5,22);
+    				cout<<"                                                                              ";
     				goto nhapDonGia;
 				}else{
 					goto checkNhapDonGia;
@@ -182,17 +191,18 @@ void nhapThongTinCTHD(CTHD &cthd, DSVATTU &ds, char *Loai){
 	   	cout<<" %";
 		gotoxy(x + 23, y + 9);
 		cin >> cthd.VAT;
-
-		if(cthd.VAT < 0 || !cin){
+		if(cthd.VAT < 0 || !cin || cthd.VAT > 100){
 			checkRongVAT:
-				gotoxy(5,20);
+				SetColor(RED);
+				gotoxy(5,22);
 				cout<<"VAT khong hop le. Nhan ENTER de tiep tuc.";
 				endchar = getch();
 				if(endchar == ENTER){
+					SetColor(YELLOW);
 					cin.clear(); // reset failbit
     				cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); //skip bad input
-					gotoxy(5,20);
-					cout<<"                                                   ";
+					gotoxy(5,22);
+					cout<<"                                                                                ";
 					goto nhapVAT;
 				}else{
 					goto checkRongVAT;
@@ -207,6 +217,7 @@ void nhapThongTinCTHD(CTHD &cthd, DSVATTU &ds, char *Loai){
 			capNhatSoLuongTon(cthd.Mavt, ds,cthd.Soluong, 2);
 			return;
 		}else if(strcmp(Loai,"N") == 0){
+			cthd.status = 1;
 			capNhatSoLuongTon(cthd.Mavt, ds,cthd.Soluong, 1);
 			return;
 		}
